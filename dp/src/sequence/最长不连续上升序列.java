@@ -30,8 +30,31 @@ public class 最长不连续上升序列 {
     }
 
     public static void main(String[] args) {
-        System.out.println(new 最长不连续上升序列().longestIncreasingSequence(new int[] { 5, 9, 4, 3, 1}));
+        System.out.println(new 最长不连续上升序列().longestIncreasingSequence2(new int[] { 0, 5, 9, 4, 3, 1}));
 
         // 面试题 17.08. 马戏团人塔
     }
+
+    public int longestIncreasingSequence2(int[] arr) {
+        int len = arr.length;
+        int[] dp = new int[len];
+        int max = 0;
+
+        Arrays.fill(dp, 1);
+        for (int i = 1; i < len; i++) {
+            for (int j = 0; j <= i; j++) {
+                if (arr[i] > arr[j]) {
+                    dp[i] = Math.max(dp[j] + 1, dp[i]);
+                }
+
+            }
+
+            max = Math.max(max, dp[i]);
+        }
+
+        return max;
+    }
+
+
+
 }
