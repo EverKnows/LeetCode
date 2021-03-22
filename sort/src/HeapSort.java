@@ -16,44 +16,41 @@ public class HeapSort {
         System.out.println(Arrays.toString(array));
     }
 
-    public void heapSort(int[] arr) {
+   public void heapSort(int[] arr) {
         int len = arr.length;
 
-        for (int i = len / 2 - 1; i >= 0; i--) {
-            doSort(arr, i, arr.length);
-        }
+       for (int i = len / 2 - 1; i >= 0; i--) {
+           doSort(arr, i, len);
+       }
 
-        for (int i = len - 1; i >= 0; i--) {
-            swap(arr, 0, i);
-            doSort(arr, 0, i);
-        }
+       for (int i = len - 1; i >= 0; i--) {
+           swap(arr, 0, i);
+           doSort(arr, 0, i);
+       }
+   }
 
+    private void doSort(int[] arr, int index, int length) {
 
-    }
+        int base = arr[index];
 
-    private void doSort(int[] arr, int i, int len) {
-        int temp = arr[i];
+        for (int k = 2 * index + 1; k < length; k=2 * k + 1) {
 
-        int k = 0;
-
-        for (int j = 2 * i + 1; j < len; j = 2 * j + 1) {
-            k = j;
-            if (k + 1 < len && arr[k] < arr[k + 1]) {
+            if ((k + 1) < length && arr[k] < arr[k + 1]) {
                 k++;
             }
-            if (arr[k] > temp) {
-                arr[i] = arr[k];
-                i = k;
+
+            if (arr[k] > base) {
+                arr[index] = arr[k];
+                index = k;
             }
         }
 
-        arr[i] = temp;
+        arr[index] = base;
     }
 
-    public void swap(int[] arr, int left, int right) {
+    private void swap(int[] arr, int left, int right) {
         int temp = arr[left];
         arr[left] = arr[right];
         arr[right] = temp;
     }
-
 }
