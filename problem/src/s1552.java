@@ -13,47 +13,40 @@ public class s1552 {
             return position[position.length - 1] - position[0];
         }
 
-        int leftBall = m - 2;
-
-        int dis = position[position.length - 1] - position[0];
-
-        int index = position.length - 1;
-
-        while(leftBall > 0) {
-            int target = ((position[index] - position[0]) * leftBall) / (leftBall + 1) + position[0];
-            int newIndex = findIndex(position, target);
-            dis = Math.min(position[index] - position[newIndex], dis);
-            leftBall--;
-            index = newIndex;
-        }
-
-        return Math.min(dis, position[index] - position[0]);
-    }
-
-    public int findIndex(int[] position, int target) {
-
-        if (position.length == 1) {
-            return 0;
-        }
-
         int left = 0;
+        int right = (position[position.length - 1] - position[0]) / (m - 1);
+        int ans = 0;
 
-        int right = position.length - 1;
-
-        while(left < right) {
+        while (left <= right) {
             int mid = left + (right - left) / 2;
-
-            if (position[mid] > target) {
-                right = mid;
-            } else if (position[mid] < target) {
+            if (check(mid, position, m)) {
+                ans = mid;
                 left = mid + 1;
             } else {
-                return mid;
+                right = mid - 1;
+            }
+
+
+        }
+
+        return ans;
+    }
+
+    private boolean check(int mid, int[] position, int m) {
+        int pre = position[0];
+        int length = position.length;
+        int count = 1;
+        for (int i = 1; i < length; i++) {
+            if (position[i] - pre >= mid) {
+                count++;
+                pre = position[i];
             }
         }
 
-        return right;
+        return count >= m;
     }
+
+
 
     public static void main(String[] args) {
         System.out.println(new s1552().maxDistance(new int[] { 1 ,2 ,3 ,4 ,5 ,6 ,7 ,8 ,9 , 10}, 4));
