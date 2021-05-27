@@ -1,3 +1,5 @@
+import java.util.Stack;
+
 /**
  * @author jianmiao.xu
  * @date 2021/5/26
@@ -6,51 +8,26 @@ public class s1190 {
 
     public String reverseParentheses(String s) {
         int length = s.length();
-        if (length == 0 || length == 1) {
-            return s;
-        }
 
-        int end = length - 1;
-        StringBuilder newStr = new StringBuilder(s);
+        Stack<String> stack = new Stack<>();
+        StringBuilder str = new StringBuilder();
 
-        for (int i = 0; i <= end; i++) {
-            if (newStr.charAt(i) == '(') {
-                end = findRKH(newStr, end);
-
-                reverseStr(newStr, i, end);
-            }
-
-        }
-        return newStr.toString().replace("(", "").replace(")", "");
-
-    }
-
-    private void reverseStr(StringBuilder str, int start, int end) {
-
-        StringBuilder temp = new StringBuilder();
-        for (int i = end; i >= start; i--) {
-            if (str.charAt(i) == '(') {
-                temp.append(")");
-            } else if(str.charAt(i) == ')'){
-                temp.append("(");
+        for (int i = 0; i < length; i++) {
+            char c = s.charAt(i);
+            if (c == ')') {
+                str.reverse();
+                str.insert(0, stack.pop());
+            } else if (c == '(') {
+                stack.push(str.toString());
+                str = new StringBuilder();
             } else {
-                temp.append(str.charAt(i));
-            }
-
-        }
-
-        str.replace(start, end + 1, temp.toString());
-    }
-
-    private int findRKH(StringBuilder s, int end) {
-        for (int i = end; i >= 0; i--) {
-            if (s.charAt(i) == ')') {
-                return i;
+                str.append(c);
             }
         }
 
-        return -1;
+        return str.toString();
     }
+
 
     public static void main(String[] args) {
         System.out.println(new s1190().reverseParentheses("a(bcdefghijkl(mno)p)q"));
